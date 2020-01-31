@@ -4,74 +4,51 @@ import { createStackNavigator } from 'react-navigation-stack'
 import { createBottomTabNavigator } from 'react-navigation-tabs'
 
 import TabBarIcon from '../components/TabBarIcon'
-import HomeScreen from '../screens/HomeScreen'
-import LinksScreen from '../screens/LinksScreen'
-import SettingsScreen from '../screens/SettingsScreen'
+import { ListScreen, MapScreen, DealsScreen, ProfileScreen } from '../screens'
 
 const config = Platform.select({
   web: { headerMode: 'screen' },
   default: {}
 })
 
-const HomeStack = createStackNavigator(
-  {
-    Home: HomeScreen
-  },
-  config
-)
-
-HomeStack.navigationOptions = {
-  tabBarLabel: 'Home',
+const ListStack = createStackNavigator({ List: ListScreen }, config)
+ListStack.navigationOptions = {
+  tabBarLabel: 'Список',
   tabBarIcon: ({ focused }) => (
     <TabBarIcon
       focused={focused}
       name={
         Platform.OS === 'ios'
           ? `ios-information-circle${focused ? '' : '-outline'}`
-          : 'md-information-circle'
+          : 'list'
       }
     />
   )
 }
 
-HomeStack.path = ''
-
-const LinksStack = createStackNavigator(
-  {
-    Links: LinksScreen
-  },
-  config
-)
-
-LinksStack.navigationOptions = {
-  tabBarLabel: 'Links',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-link' : 'md-link'} />
-  )
+const MapStack = createStackNavigator({ Map: MapScreen }, config)
+MapStack.navigationOptions = {
+  tabBarLabel: 'Карта',
+  tabBarIcon: <TabBarIcon name="map" type="entypo" />
 }
 
-LinksStack.path = ''
-
-const SettingsStack = createStackNavigator(
-  {
-    Settings: SettingsScreen
-  },
-  config
-)
-
-SettingsStack.navigationOptions = {
-  tabBarLabel: 'Settings',
-  tabBarIcon: ({ focused }) => (
-    <TabBarIcon focused={focused} name={Platform.OS === 'ios' ? 'ios-options' : 'md-options'} />
-  )
+const DealsStack = createStackNavigator({ Deals: DealsScreen }, config)
+DealsStack.navigationOptions = {
+  tabBarLabel: 'Акции',
+  tabBarIcon: <TabBarIcon name="star-outlined" type="entypo" />
 }
 
-SettingsStack.path = ''
+const ProfileStack = createStackNavigator({ Profile: ProfileScreen }, config)
+ProfileStack.navigationOptions = {
+  tabBarLabel: 'Профиль',
+  tabBarIcon: <TabBarIcon name="person-outline" type="material" />
+}
 
 const tabNavigator = createBottomTabNavigator({
-  HomeStack,
-  LinksStack,
-  SettingsStack
+  MapStack,
+  ListStack,
+  DealsStack,
+  ProfileStack
 })
 
 tabNavigator.path = ''
